@@ -12,7 +12,6 @@ Di masa pandemi seperti ini, kompetisi coding seperti *Competitive Programming* 
 Untuk bisa mengikuti *hackathon* dari suatu instansi, calon peserta diwajibkan untuk mendaftarkan diri mereka pada situs/*form* tertentu dengan memasukkan beberapa informasi yang diminta oleh penyelenggara tersebut.
 
 ## Dataset Project yang Akan Dikerjakan
----
 Pada proyek kali ini, diminta untuk mengolah data pendaftar *hackathon* yang diselenggarakan oleh **DQLab** bernama **DQThon**.
 
 Dataset ini terdiri dari 5000 baris data (5000 pendaftar) dengan format CSV *(Comma-separated values)* dan memiliki beberapa kolom diantaranya:
@@ -32,7 +31,6 @@ Dataset ini terdiri dari 5000 baris data (5000 pendaftar) dengan format CSV *(Co
 Pada proyek ini nantinya diminta untuk menghasilkan beberapa kolom dengan memanfaatkan kolom-kolom yang ada, sehingga akhir dari proyek ini berupa hasil transformasi data dengan beberapa kolom baru selain dari 10 kolom diatas.
 
 ## Extract, Transform dan Load (ETL)
----
 Merupakan kumpulan proses untuk "memindahkan" data dari satu tempat ke tempat lain.
 Tempat yang dimaksud adalah dari sumber data (bisa berupa database aplikasi, *file, logs*, database dari *3rd party*, dan lainnya) ke data *warehouse*.
 
@@ -43,7 +41,6 @@ Tempat yang dimaksud adalah dari sumber data (bisa berupa database aplikasi, *fi
 https://storage.googleapis.com/dqlab-dataset/dqthon-participants.csv.
 ```
 ## Extract
----
 Extract merupakan proses meng-ekstraksi data dari sumber, sumber data ini bisa berupa relational data (SQL) atau tabel, nonrelational (NoSQL) maupun yang lainnya.
 
 ```
@@ -51,7 +48,6 @@ import pandas as pd
 df_participant = pd.read_csv('https://storage.googleapis.com/dqlab-dataset/dqthon-participants.csv')
 ```
 ## Transform
----
 Transform merupakan proses melakukan transformasi data, atau perubahan terhadap data. Umumnya seperti:
 * Merubah nilai dari suatu kolom ke nilai baru,
 * Menciptakan kolom baru dengan memanfaatkan kolom lain,
