@@ -5,7 +5,6 @@
 ***
 
 ## Pengantar
----
 Di masa pandemi seperti ini, kompetisi coding seperti *Competitive Programming* maupun *Hackathon* banyak diselenggarakan karena sangat memungkinkan untuk dilakukan secara online.
 
 ***Hackathon*** merupakan kompetisi membuat perangkat lunak *(software)* yang dilaksanakan secara marathon yang biasanya diikuti secara tim. Umumnya, peserta *hackathon* diminta untuk mengembangkan *platform* (*mobile, web, desktop,* dll.) dalam kurun waktu tertentu untuk menyelesaikan permasalahan yang sudah ditetapkan/didefinisikan oleh penyelenggara ataupun berdasarkan tema yang dipilih oleh tim tersebut.
