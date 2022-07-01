@@ -1,7 +1,7 @@
 # Project Simple ETL with Pandas
 ## Data Engineer - ETL Project
 
-## "Mengolah data pendaftar hackathon yang diselenggarakan oleh DQLab bernama DQThon"
+### "Mengolah data pendaftar hackathon yang diselenggarakan oleh DQLab bernama DQThon"
 ***
 
 ## Pengantar
