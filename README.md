@@ -270,3 +270,96 @@ def func(col):
 
 df_participant['email'] = df_participant.apply(func, axis=1)
 ```
+
+## Transform Bagian VII - Tanggal Lahir
+---
+
+Melakukan *formatting* terhadap kolom **birth_date** menjadi **YYYY-MM-DD** dan simpan di kolom yang sama.
+
+```
+df_participant['birth_date'] = pd.to_datetime(df_participant['birth_date'], format='%d %b %Y')
+df_participant.head()
+```
+
+## Transform Bagian VII - Tanggal Daftar Kompetisi
+---
+Selain punya aturan mengenai format DATE, MySQL juga memberi aturan pada data yang bertipe DATETIME yaitu YYYY-MM-DD HH:mm:ss dengan keterangan:
+
+* YYYY: 4 digit yang menandakan tahun
+* MM: 2 digit yang menandakan bulan
+* DD: 2 digit yang menandakan tanggal
+* HH: 2 digit yang menandakan jam
+* mm: 2 digit yang menandakan menit
+* ss: 2 digit yang menandakan detik
+
+Contohnya yaitu: 2021-04-07 15:10:55
+
+Karena data mengenai waktu registrasi peserta (register_time) belum sesuai format yang seharusnya.
+Tugas kali ini yaitu mengubah register_time ke format DATETIME sesuai dengan aturan dari MySQL lalu menyimpan hasil tersebut ke kolom register_at.
+
+```
+df_participant['register_at'] = pd.to_datetime(df_participant['register_time'], unit='s')
+df_participant.head()
+```
+
+## Kesimpulan
+Jika dilihat kembali, dataset yang sudah dilakukan proses tranformasi data saat ini sudah berbeda dengan saat proses extract sebelumnya. Ada beberapa kolom tambahan yang memanfaatkan nilai kolom lain.
+
+
+Dataset sebelum di transform (saat proses extract)
+```
+df_participant.info()
+
+output:
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 5000 entries, 0 to 4999
+Data columns (total 10 columns):
+ #   Column          Non-Null Count  Dtype  
+---  ------          --------------  -----  
+ 0   participant_id  5000 non-null   object 
+ 1   first_name      5000 non-null   object 
+ 2   last_name       5000 non-null   object 
+ 3   birth_date      5000 non-null   object 
+ 4   address         5000 non-null   object 
+ 5   phone_number    5000 non-null   object 
+ 6   country         5000 non-null   object 
+ 7   institute       5000 non-null   object 
+ 8   occupation      5000 non-null   object 
+ 9   register_time   5000 non-null   float64
+dtypes: float64(1), object(9)
+memory usage: 390.8+ KB
+```
+Dataset yang sudah di transform:
+```
+df_participant.info()
+```
+output:
+```
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 5000 entries, 0 to 4999
+Data columns (total 17 columns):
+ #   Column                Non-Null Count  Dtype         
+---  ------                --------------  -----         
+ 0   participant_id        5000 non-null   object        
+ 1   first_name            5000 non-null   object        
+ 2   last_name             5000 non-null   object        
+ 3   birth_date            5000 non-null   datetime64[ns]
+ 4   address               5000 non-null   object        
+ 5   phone_number          5000 non-null   object        
+ 6   country               5000 non-null   object        
+ 7   institute             5000 non-null   object        
+ 8   occupation            5000 non-null   object        
+ 9   register_time         5000 non-null   float64       
+ 10  postal_code           5000 non-null   object        
+ 11  city                  5000 non-null   object        
+ 12  github_profile        5000 non-null   object        
+ 13  cleaned_phone_number  5000 non-null   object        
+ 14  team_name             5000 non-null   object        
+ 15  email                 5000 non-null   object        
+ 16  register_at           5000 non-null   datetime64[ns]
+dtypes: datetime64[ns](2), float64(1), object(14)
+memory usage: 664.2+ KB
+```
+
+
