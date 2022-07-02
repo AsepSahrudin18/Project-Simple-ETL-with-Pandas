@@ -56,7 +56,7 @@ Transform merupakan proses melakukan transformasi data, atau perubahan terhadap 
 
 ## Transform Bagian I - Kode Pos
 ---
-Ada permintaan datang dari tim logistik bahwa mereka membutuhkan kode pos dari peserta agar pengiriman piala lebih mudah dan cepat sampai. Maka dari itu buatlah kolom baru bernama postal_code yang memuat informasi mengenai kode pos yang diambil dari alamat peserta (kolom *address*).
+Ada permintaan datang dari tim logistik bahwa mereka membutuhkan kode pos dari peserta agar pengiriman piala lebih mudah dan cepat sampai. Maka dari itu buatlah kolom baru bernama **postal_code** yang memuat informasi mengenai kode pos yang diambil dari alamat peserta (kolom *address*).
 
 ```
 import pandas as pd
