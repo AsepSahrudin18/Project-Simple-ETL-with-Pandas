@@ -291,6 +291,7 @@ Jika kita lihat kembali pada kolom tanggal lahir terlihat bahwa nilainya belum s
 
 **sc:** https://www.mysqltutorial.org/mysql-date/
 
+Task:Melakukan *formatting* terhadap kolom **birth_date** menjadi **YYYY-MM-DD** dan simpan di kolom yang sama.
 ```
 df_participant['birth_date'] = pd.to_datetime(df_participant['birth_date'], format='%d %b %Y')
 df_participant.head()
