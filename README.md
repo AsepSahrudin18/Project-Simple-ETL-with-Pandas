@@ -125,28 +125,10 @@ Selain kode pos, mereka juga membutuhkan kota dari peserta.
 df_participant.info()
 df_participant.head()
 
-output:
+```
+```
+# Mengambil kota dari peserta dengan menggunakan regex dari kolom address lalu disimpan kedalam kolom baru bernama city
+df_participant['city'] = df_participant['address'].str.extract(r'(?<=\n)(\w.+)(?=,)')
+```
 
-<class 'pandas.core.frame.DataFrame'>
-RangeIndex: 5000 entries, 0 to 4999
-Data columns (total 11 columns):
- #   Column          Non-Null Count  Dtype  
----  ------          --------------  -----  
- 0   participant_id  5000 non-null   object 
- 1   first_name      5000 non-null   object 
- 2   last_name       5000 non-null   object 
- 3   birth_date      5000 non-null   object 
- 4   address         5000 non-null   object 
- 5   phone_number    5000 non-null   object 
- 6   country         5000 non-null   object 
- 7   institute       5000 non-null   object 
- 8   occupation      5000 non-null   object 
- 9   register_time   5000 non-null   float64
- 10  postal_code     5000 non-null   object 
-dtypes: float64(1), object(10)
-memory usage: 429.8+ KB
-```
-```
-![Screenshot at 2022-07-02 11-02-33](https://user-images.githubusercontent.com/73177538/176985831-957704aa-6725-4f7d-a584-6ca0a35c0132.png)
 
-```
