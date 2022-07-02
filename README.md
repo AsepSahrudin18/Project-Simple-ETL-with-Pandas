@@ -128,7 +128,145 @@ df_participant.head()
 ```
 ```
 # Mengambil kota dari peserta dengan menggunakan regex dari kolom address lalu disimpan kedalam kolom baru bernama city
+# lalu cek info untuk memastikan kembali data kota dari kolom address yang telah di ambil ke kolom city
 df_participant['city'] = df_participant['address'].str.extract(r'(?<=\n)(\w.+)(?=,)')
 ```
+output:
 
+```
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 5000 entries, 0 to 4999
+Data columns (total 12 columns):
+ #   Column          Non-Null Count  Dtype  
+---  ------          --------------  -----  
+ 0   participant_id  5000 non-null   object 
+ 1   first_name      5000 non-null   object 
+ 2   last_name       5000 non-null   object 
+ 3   birth_date      5000 non-null   object 
+ 4   address         5000 non-null   object 
+ 5   phone_number    5000 non-null   object 
+ 6   country         5000 non-null   object 
+ 7   institute       5000 non-null   object 
+ 8   occupation      5000 non-null   object 
+ 9   register_time   5000 non-null   float64
+ 10  postal_code     5000 non-null   object 
+ 11  city            5000 non-null   object 
+dtypes: float64(1), object(11)
+memory usage: 468.9+ KB
+```
+keterangan:
+data kota berhasil diambil dari kolom address pada kolom *city* no. 11 pada info tersebut.
 
+## Transform Bagian III - Github
+---
+Salah satu parameter untuk mengetahui proyek apa saja yang pernah dikerjakan oleh peserta yaitu dari *git repository* mereka.
+
+studi kasus:
+Diketahui bahwa profil github mereka merupakan gabungan dari **first_name** dan **last_name** yang sudah di-*lowercase*. 
+
+* Tugas kali ini yaitu membuat kolom baru bernama **github_profile** yang merupakan *link* profil *github* dari peserta.
+
+```
+# Cek 5 baris pertama dari df_participant untuk mengidentifikasi dataframe terlebih dahulu
+df_participant = pd.read_csv('https://storage.googleapis.com/dqlab-dataset/dqthon-participants.csv')
+df_participant['postal_code'] = df_participant['address'].str.extract(r'(\d+)$')
+df_participant['city'] = df_participant['address'].str.extract(r'(?<=\n)(\w.+)(?=,)') 
+df_participant.head()
+```
+```
+df_participant['github_profile'] = 'https://github.com/' + df_participant['first_name'].str.lower() + df_participant['last_name'].str.lower()
+df_participant.head()
+```
+## Transform Bagian IV - Nomor Handphone
+---
+Menentukan format nomor handphone yang benar. Pada kasus ini melakukan cleansing pada *phone number* untuk standarisasi data nomor telpon:
+* Jika awalan nomor HP berupa angka 62 atau +62 yang merupakan kode telepon Indonesia, maka diterjemahkan ke 0.
+* Tidak ada tanda baca seperti kurung buka, kurung tutup, strip⟶ ()-
+* Tidak ada spasi pada nomor HP nama kolom untuk menyimpan hasil *cleansing* pada nomor HP yaitu **cleaned_phone_number**
+
+```
+df_participant['cleaned_phone_number'] = df_participant['phone_number'].str.replace(r'^(\+62|62)', '0')
+df_participant['cleaned_phone_number'] = df_participant['cleaned_phone_number'].str.replace(r'[()-]', '')
+df_participant['cleaned_phone_number'] = df_participant['cleaned_phone_number'].str.replace(r'\s+', '')
+# mengecek 5 baris pertama dari phone number
+df_participant.head()
+```
+## Transform Bagian V - Nama Tim
+---
+Dataset saat ini belum memuat nama tim, dan rupanya dari tim Data Analyst membutuhkan informasi terkait nama tim dari masing-masing peserta.
+
+studi kasus:
+Diketahui bahwa nama tim merupakan gabungan nilai dari kolom ***first_name, last_name, country dan institute***.
+
+Tugas:
+Membuat kolom baru dengan nama ***team_name*** yang memuat informasi nama tim dari peserta.
+
+```
+def func(col):
+    abbrev_name = "%s%s"%(col['first_name'][0],col['last_name'][0]) #Singkatan dari Nama Depan dan Nama Belakang dengan mengambil huruf pertama
+    country = col['country']
+    abbrev_institute = '%s'%(''.join(list(map(lambda word: word[0], col['institute'].split())))) #Singkatan dari value di kolom institute
+    return "%s-%s-%s"%(abbrev_name,country,abbrev_institute)
+
+df_participant['team_name'] = df_participant.apply(func, axis=1)
+# cek 5 baris pertama untuk memastikan
+df_participant.head()
+```
+
+## Transform Bagian VI - Email
+---
+Setelah dilihat kembali dari data peserta yang dimiliki, ternyata ada satu informasi yang penting namun belum tersedia, yaitu *email*.
+
+Tugas sebagai Data Engineer diminta untuk menyediakan informasi *email* dari peserta dengan aturan bahwa format email sebagai berikut:
+
+```
+Format email:
+xxyy@aa.bb.[ac/com].[cc]
+
+Keterangan:
+xx -> nama depan (first_name) dalam lowercase
+yy -> nama belakang (last_name) dalam lowercase
+aa -> nama institusi
+
+Untuk nilai bb, dan cc mengikuti nilai dari aa. Aturannya:
+- Jika institusi nya merupakan Universitas, maka
+  bb -> gabungan dari huruf pertama pada setiap kata dari nama Universitas dalam lowercase
+  Kemudian, diikuti dengan .ac yang menandakan akademi/institusi belajar dan diikuti dengan pattern cc
+- Jika institusi bukan merupakan Universitas, maka
+  bb -> gabungan dari huruf pertama pada setiap kata dari nama Universitas dalam lowercase
+  Kemudian, diikuti dengan .com. Perlu diketahui bahwa pattern cc tidak berlaku pada kondisi ini
+
+cc -> merupakan negara asal peserta, adapun aturannya:
+- Jika banyaknya kata pada negara tersebut lebih dari 1 maka ambil singkatan dari negara tersebut dalam lowercase
+- Namun, jika banyaknya kata hanya 1 maka ambil 3 huruf terdepan dari negara tersebut dalam lowercase
+
+Contoh:
+  Nama depan: Citra
+  Nama belakang: Nurdiyanti
+  Institusi: UD Prakasa Mandasari
+  Negara: Georgia
+  Maka,Email nya: citranurdiyanti@upm.geo
+  -----------------------------------
+  Nama depan: Aris
+  Nama belakang: Setiawan
+  Institusi: Universitas Diponegoro
+  Negara: Korea Utara
+  Maka, Email nya: arissetiawan@ud.ac.ku
+```
+```
+def func(col):
+    first_name_lower = col['first_name'].lower()
+    last_name_lower = col['last_name'].lower()
+    institute = ''.join(list(map(lambda word: word[0], col['institute'].lower().split()))) #Singkatan dari nama perusahaan dalam lowercase
+
+    if 'Universitas' in col['institute']:
+        if len(col['country'].split()) > 1: #Kondisi untuk mengecek apakah jumlah kata dari country lebih dari 1
+            country = ''.join(list(map(lambda word: word[0], col['country'].lower().split())))
+        else:
+            country = col['country'][:3].lower()
+        return "%s%s@%s.ac.%s"%(first_name_lower,last_name_lower,institute,country)
+
+    return "%s%s@%s.com"%(first_name_lower,last_name_lower,institute)
+
+df_participant['email'] = df_participant.apply(func, axis=1)
+```
