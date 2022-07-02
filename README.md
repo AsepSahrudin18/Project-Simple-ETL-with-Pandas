@@ -287,8 +287,7 @@ Meskipun begitu, ada suatu aturan dari MySQL terkait format tanggal yang bisa me
 * Contohnya yaitu: 2021-04-07
 
 Jika kita lihat kembali pada kolom tanggal lahir terlihat bahwa nilainya belum sesuai dengan format DATE dari MySQL
-**sc:**
-[id link]: https://www.mysqltutorial.org/mysql-date/
+**sc:** https://www.mysqltutorial.org/mysql-date/
 
 ```
 df_participant['birth_date'] = pd.to_datetime(df_participant['birth_date'], format='%d %b %Y')
