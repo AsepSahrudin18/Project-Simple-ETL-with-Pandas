@@ -378,4 +378,17 @@ dtypes: datetime64[ns](2), float64(1), object(14)
 memory usage: 664.2+ KB
 ```
 
+## Load
+---
+Pada bagian load ini, data yang sudah ditransformasi sedemikian rupa sehingga sesuai dengan kebutuhan tim analyst dimasukkan kembali ke database yaitu Data Warehouse (DWH). Biasanya, dilakukan pendefinisian skema database terlebih dahulu seperti:
+
+* Nama kolom
+* Tipe kolom
+* Apakah primary key, unique key, index atau bukan
+* Panjang kolomnya
+Karena umumnya Data Warehouse merupakan database yang terstruktur sehingga mereka memerlukan skema sebelum datanya dimasukkan.
+
+Pandas sudah menyediakan fungsi untuk memasukkan data ke database yaitu to_sql().
+
+
 
