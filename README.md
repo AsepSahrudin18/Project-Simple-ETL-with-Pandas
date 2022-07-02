@@ -55,4 +55,63 @@ Transform merupakan proses melakukan transformasi data, atau perubahan terhadap 
 * Mengubah format data ke bentuk yang lebih standard (contohnya, kolom *date*, maupun *datetime* yang biasanya memiliki nilai yang tidak standard maupun nomor HP yang biasanya memiliki nilai yang tidak sesuai format standardnya), dan lainnya. 
 
 ## Transform Bagian I - Kode Pos
----
+Ada permintaan datang dari tim logistik bahwa mereka membutuhkan kode pos dari peserta agar pengiriman piala lebih mudah dan cepat sampai. Maka dari itu buatlah kolom baru bernama postal_code yang memuat informasi mengenai kode pos yang diambil dari alamat peserta (kolom *address*).
+
+```
+import pandas as pd
+df_participant = pd.read_csv('https://storage.googleapis.com/dqlab-dataset/dqthon-participants.csv')
+# cek info untuk mengetahui informasi pada dataframe
+df_participant.info()
+```
+output:
+```
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 5000 entries, 0 to 4999
+Data columns (total 10 columns):
+ #   Column          Non-Null Count  Dtype  
+---  ------          --------------  -----  
+ 0   participant_id  5000 non-null   object 
+ 1   first_name      5000 non-null   object 
+ 2   last_name       5000 non-null   object 
+ 3   birth_date      5000 non-null   object 
+ 4   address         5000 non-null   object 
+ 5   phone_number    5000 non-null   object 
+ 6   country         5000 non-null   object 
+ 7   institute       5000 non-null   object 
+ 8   occupation      5000 non-null   object 
+ 9   register_time   5000 non-null   float64
+dtypes: float64(1), object(9)
+memory usage: 390.8+ KB
+```
+Mengambil kode pos menggunakan regex dari kolom *address* kemudian disimpan ke kolom baru *postal_kode* dan cek kembali menggunakan .info
+```
+#Masukkan regex didalam fungsi extract
+df_participant['postal_code'] = df_participant['address'].str.extract(r'(\d+)$') 
+print(df_participant.info())
+```
+output:
+```
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 5000 entries, 0 to 4999
+Data columns (total 11 columns):
+ #   Column          Non-Null Count  Dtype  
+---  ------          --------------  -----  
+ 0   participant_id  5000 non-null   object 
+ 1   first_name      5000 non-null   object 
+ 2   last_name       5000 non-null   object 
+ 3   birth_date      5000 non-null   object 
+ 4   address         5000 non-null   object 
+ 5   phone_number    5000 non-null   object 
+ 6   country         5000 non-null   object 
+ 7   institute       5000 non-null   object 
+ 8   occupation      5000 non-null   object 
+ 9   register_time   5000 non-null   float64
+ 10  postal_code     5000 non-null   object 
+dtypes: float64(1), object(10)
+memory usage: 429.8+ KB
+None
+```
+keterangan:
+pada kolom no 10, kolom benama postal_code berhasil dibuat dengan memuat informasi kode pos yang diambil dari kolom *address*
+
+
